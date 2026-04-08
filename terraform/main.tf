@@ -62,3 +62,25 @@ resource "azurerm_linux_web_app" "main" {
     managed_by  = "terraform"
   }
 }
+
+resource "azurerm_key_vault" "main" {
+  name                = "kv-${var.project_name}-${var.environment}"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  sku_name            = "standard"
+
+  tags = {
+    project     = var.project_name
+    environment = var.environment
+    managed_by  = "terraform"
+  }
+}
+
+resource "azurerm_key_vault_access_policy" "app" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_linux_web_app.main.identity[0].principal_id
+
+  secret_permissions = ["Get", "List"]
+}
