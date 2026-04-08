@@ -84,3 +84,17 @@ resource "azurerm_key_vault_access_policy" "app" {
 
   secret_permissions = ["Get", "List"]
 }
+
+resource "azurerm_storage_account" "main" {
+  name                     = "st${replace(var.project_name, "-", "")}${var.environment}"
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = azurerm_resource_group.main.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  tags = {
+    project     = var.project_name
+    environment = var.environment
+    managed_by  = "terraform"
+  }
+}
