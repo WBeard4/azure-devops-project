@@ -62,16 +62,16 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
   deploy:
     name: Deploy to Azure
@@ -96,8 +96,8 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
